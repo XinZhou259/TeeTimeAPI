@@ -1,6 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
-using TeeTimeAPI.DbContexts;
+
 using TeeTimeAPI.Services;
 
 namespace TeeTimeAPI
@@ -23,10 +23,6 @@ namespace TeeTimeAPI
            
 
             builder.Services.AddSingleton<ICourseService, CourseService>();
-            builder.Services.AddDbContext<CourseInfoContext>(dbContextOptions 
-                => dbContextOptions.UseSqlite(
-                    builder.Configuration["ConnectionString: CourseInfoDBConnectionString"]));
-           builder.Services.AddScoped<ICourseInfoRepository, CourseInfoRepository>();
             
 
             var app = builder.Build();

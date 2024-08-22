@@ -25,7 +25,7 @@ namespace TeeTimeAPI
             builder.Services.AddSingleton<ICourseService, CourseService>();
             builder.Services.AddDbContext<CourseInfoContext>(dbContextOptions 
                 => dbContextOptions.UseSqlite(
-                    builder.Configuration["ConnectionString: CourseInfoDBConnectionString"]));
+                    builder.Configuration["ConnectionStrings:CourseInfoDBConnectionString"]));
            builder.Services.AddScoped<ICourseInfoRepository, CourseInfoRepository>();
             
 

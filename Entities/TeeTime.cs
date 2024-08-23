@@ -14,6 +14,7 @@ namespace TeeTimeAPI.Entities
         public string Time { get; set; }
         public int NumberOfPlayer { get; set; }
         public double Price { get; set; }
+
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
         public int CourseId { get; set; }

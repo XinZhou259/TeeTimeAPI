@@ -22,12 +22,13 @@ namespace TeeTimeAPI
             builder.Services.AddSwaggerGen();
            
 
-            builder.Services.AddSingleton<ICourseService, CourseService>();
+            
             builder.Services.AddDbContext<CourseInfoContext>(dbContextOptions 
                 => dbContextOptions.UseSqlite(
                     builder.Configuration["ConnectionStrings:CourseInfoDBConnectionString"]));
-           builder.Services.AddScoped<ICourseInfoRepository, CourseInfoRepository>();
-            
+            builder.Services.AddScoped<ICourseInfoRepository, CourseInfoRepository>();
+           
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
 
             var app = builder.Build();
 

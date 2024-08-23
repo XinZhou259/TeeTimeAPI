@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TeeTimeAPI.Models;
 using TeeTimeAPI.Services;
@@ -7,86 +7,84 @@ namespace TeeTimeAPI.Controllers
 {
     [ApiController]
     [Route("/courses")]
-    public class CoursesController: ControllerBase
+    public class CoursesController : ControllerBase
     {
-        private readonly ICourseService courseService;
-        
-        public CoursesController(ICourseService courseService)
+
+        private ICourseInfoRepository _courseInfoRepository;
+        private IMapper _mapper;
+
+        public CoursesController(ICourseInfoRepository courseInfoRepository, IMapper mapper)
         {
-            this.courseService = courseService;
+            _courseInfoRepository = courseInfoRepository ?? throw new ArgumentNullException(nameof(courseInfoRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CourseDto>> GetCourses()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses()
         {
-            //return Ok(CoursesDataStore.Current.Courses);                
-            return Ok(courseService.GetCourses());
+            var courseEntities = await _courseInfoRepository.GetCoursesAsync();
+
+            return Ok(_mapper.Map<IEnumerable<CourseDto>>(courseEntities));
         }
 
-        [HttpGet("{id}", Name = "GetCourse")]
-        public ActionResult<CourseDto> GetCourse(int id)
+        [HttpGet("{courseId}", Name = "GetCourse")]
+        public async Task<IActionResult> GetCourse(int courseId, bool includeTeeTime = false)
         {
-            var courseToReturn = courseService.GetCourse(id);
-            if (courseToReturn == null)
+            var course = await _courseInfoRepository.GetCourseAsync(courseId, includeTeeTime);
+            if (course == null)
             {
                 return NotFound();
             }
-            return Ok(courseToReturn);
+
+            if (includeTeeTime)
+            {
+                return Ok(_mapper.Map<CourseWithTeeTimeDto>(course));
+            }
+
+            return Ok(_mapper.Map<CourseDto>(course));
         }
 
         [HttpPost]
-        public ActionResult<CourseDto> CreateCourse(CourseForCreateDto course)
+        public async Task<ActionResult<CourseDto>> CreateCourse(CourseForCreateDto course)
         {
             
-            var courseToCreate = courseService.CreateCourse(course);
+            var courseToCreate = _mapper.Map<Entities.Course>(course);
+            _courseInfoRepository.AddCourse(courseToCreate);
+            await _courseInfoRepository.SaveChangeAsync();
+            var courseToReturn =_mapper.Map<CourseDto>(courseToCreate);
 
-           return CreatedAtRoute("GetCourse", new { id = courseToCreate.Id }, courseToCreate);
-          
+            return CreatedAtRoute("GetCourse", new { courseId = courseToReturn.Id }, courseToReturn);
+
         }
 
-        [HttpPatch("{id}")]
-        public ActionResult PartiallyUpdateCourse(int id, JsonPatchDocument<CourseForUpdateDto> patchDocument)
+        [HttpPut("{courseId}")]
+        public async Task<ActionResult> UpdateCourse(int courseId, CourseForUpdateDto courseForUpdateDto)
         {
-            var courseFromStore = courseService.GetCourse(id);
-            if ( courseFromStore == null)
+            
+            if (!await _courseInfoRepository.CourseExistsAsync(courseId))
             {
                 return NotFound();
             }
-
-            var courseToPatch = new CourseForUpdateDto()
-            {
-                CourseName = courseFromStore.CourseName,
-                CourseUrl = courseFromStore.CourseURL
-            };
-
-            patchDocument.ApplyTo(courseToPatch, ModelState);
-            //Here the ModelState verify the input model, which is a JsonPatchDocument,as long as the JsonPatchDocument is valid, it will be executed.(e.g. if provide a invalid path, it will return BadRequest error.)
-            //Which means even if we write a remove courseName opration in the patch document, it will work, but it's not correct to our business rull, because courseName is required.
-            //So we need further validation to match the rules in CourseForUpdateDto.
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!TryValidateModel(courseToPatch))
-            {
-                return BadRequest(ModelState);
-            }
-
-            var updatedCourse = courseService.UpdateCourse(id, courseToPatch);
-            return Ok(updatedCourse);
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult DeleteCourse(int id)
-        {
-            var courseToDelete = courseService.GetCourse(id);
-            if (courseToDelete == null)
-            {
-                return NotFound();
-            }
-            courseService.DeleteCourse(id);
+            var courseToUpdate = await _courseInfoRepository.GetCourseAsync(courseId, false);
+            _mapper.Map(courseForUpdateDto, courseToUpdate);
+            await _courseInfoRepository.SaveChangeAsync();
             return NoContent();
         }
+
+        [HttpDelete("{courseId}")]
+        public async Task<ActionResult> DeleteCourse(int courseId)
+        {
+           
+            if (!await _courseInfoRepository.CourseExistsAsync(courseId))
+            {
+                return NotFound();
+            }
+            var courseToDelete = await _courseInfoRepository.GetCourseAsync(courseId, false);
+            _courseInfoRepository.DeleteCourse(courseToDelete!);
+            await _courseInfoRepository.SaveChangeAsync();
+            return NoContent();
+        }
+
+        
     }
 }

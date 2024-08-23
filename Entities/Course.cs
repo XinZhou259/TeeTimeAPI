@@ -17,7 +17,7 @@ namespace TeeTimeAPI.Entities
         [StringLength(200)]
         public string CourseURL { get; set; }
 
-        public ICollection<TeeTime>? TeeTimes { get; set; } = new List<TeeTime>();
+        public ICollection<TeeTime> TeeTimes { get; set; } = [];
 
         public Course(string courseName, string courseURL)
         {

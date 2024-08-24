@@ -5,6 +5,8 @@ namespace TeeTimeAPI.Services
     public interface ICourseInfoRepository
     {
         Task<IEnumerable<Course>> GetCoursesAsync();
+
+        Task<IEnumerable<Course>> GetCoursesAsync(string? courseName, string? searchQuery);
         Task<Course?> GetCourseAsync(int courseId, bool includeTeeTime);
 
         Task<bool> CourseExistsAsync(int courseId);

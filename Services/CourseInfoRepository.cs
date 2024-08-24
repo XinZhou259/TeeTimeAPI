@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TeeTimeAPI.DbContexts;
 using TeeTimeAPI.Entities;
 
@@ -16,6 +17,33 @@ namespace TeeTimeAPI.Services
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
             return await _context.Courses.OrderBy(c => c.CourseName).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Course>> GetCoursesAsync(string? courseName, string? searchQuery)
+        {
+            if (string.IsNullOrEmpty(courseName) && string.IsNullOrEmpty(searchQuery))
+            {
+                return await GetCoursesAsync();
+            }
+            //explicitly cast the courses colletion to IQueryable to use the LINQ method and support differed execution
+            //(execute the SQL query after all querys are build up in stage)
+            var courseCollection = _context.Courses as IQueryable<Course>;
+            if (!string.IsNullOrEmpty(courseName)) {
+                courseName = courseName.Trim();
+                courseCollection = courseCollection.Where(c => c.CourseName == courseName);
+            }
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.Trim();
+                courseCollection = courseCollection
+                    .Where(c => c.CourseName.Contains(searchQuery) || c.CourseURL.Contains(searchQuery));
+            }
+
+            return await courseCollection.OrderBy(c => c.CourseName).ToListAsync();
+
+
+               
         }
 
         public async Task<Course?> GetCourseAsync(int courseId, bool includeTeeTime)

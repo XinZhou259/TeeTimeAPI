@@ -20,9 +20,11 @@ namespace TeeTimeAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses(
+            [FromQuery(Name = "name")] string? courseName, 
+            [FromQuery(Name = "search")] string? searchQuery )
         {
-            var courseEntities = await _courseInfoRepository.GetCoursesAsync();
+            var courseEntities = await _courseInfoRepository.GetCoursesAsync(courseName, searchQuery);
 
             return Ok(_mapper.Map<IEnumerable<CourseDto>>(courseEntities));
         }

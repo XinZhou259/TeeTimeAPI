@@ -85,10 +85,25 @@ namespace TeeTimeAPI.Services
                 .Where(t => t.CourseId == courseId && t.Id == teeTimeId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TeeTime>> GetTeeTimesAsync(int courseId)
+        public async Task<(IEnumerable<TeeTime>, PaginationMetadata)> GetTeeTimesAsync(int courseId, DateTime? date, int currentPage, int pageSize)
         {
-            return await _context.TeeTimes
-                .Where(t => t.CourseId == courseId).ToListAsync();
+            var collection = _context.TeeTimes.Where(t => t.CourseId == courseId) as IQueryable<TeeTime>;
+
+            if (date.HasValue)
+            {
+                collection = collection.Where(t => t.Date.Date == date.Value.Date);
+            }
+
+            var totalItemCount = await collection.CountAsync();
+
+            var paginationMetadata = new PaginationMetadata (totalItemCount, pageSize, currentPage);
+
+            var collectionToReturn = await collection
+                .Skip(pageSize * (currentPage - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetadata); 
         }
 
         public async Task AddTeeTimeToCourseAsync(int courseId, TeeTime teeTime)

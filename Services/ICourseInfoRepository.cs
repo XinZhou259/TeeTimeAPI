@@ -16,7 +16,7 @@ namespace TeeTimeAPI.Services
         void DeleteCourse(Course course);
 
         Task<bool> SaveChangeAsync();
-        Task<IEnumerable<TeeTime>> GetTeeTimesAsync(int courseId);
+        Task<(IEnumerable<TeeTime>, PaginationMetadata)> GetTeeTimesAsync(int courseId, DateTime? date, int currentPage, int pageSize);
 
         Task<TeeTime?> GetTeeTimeAsync(int courseId, int teeTimeId);
 

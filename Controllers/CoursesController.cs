@@ -1,5 +1,4 @@
-﻿using Asp.Versioning;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TeeTimeAPI.Models;
 using TeeTimeAPI.Services;
@@ -7,9 +6,7 @@ using TeeTimeAPI.Services;
 namespace TeeTimeAPI.Controllers
 {
     [ApiController]
-    [Route("/v{version:apiVersion}/courses")]
-    [ApiVersion(1)]
-    [ApiVersion(2)]
+    [Route("/courses")]
     public class CoursesController : ControllerBase
     {
 

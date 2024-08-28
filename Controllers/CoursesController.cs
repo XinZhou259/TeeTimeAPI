@@ -29,7 +29,17 @@ namespace TeeTimeAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<CourseDto>>(courseEntities));
         }
 
+        /// <summary>
+        /// Get a course by id
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <param name="includeTeeTime">Whether or not to include the tee times of current course</param>
+        /// <returns>A course with or without tee times</returns>
+        /// <response code="200">Returns the requested course</response>
         [HttpGet("{courseId}", Name = "GetCourse")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCourse(int courseId, bool includeTeeTime = false)
         {
             var course = await _courseInfoRepository.GetCourseAsync(courseId, includeTeeTime);

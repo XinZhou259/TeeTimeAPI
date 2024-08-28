@@ -1,5 +1,8 @@
 ﻿namespace TeeTimeAPI.Models
 {
+    /// <summary>
+    /// A course with tee times
+    /// </summary>
     public class CourseWithTeeTimeDto
     {
         public int Id { get; set; }

@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using TeeTimeAPI.DbContexts;
 using TeeTimeAPI.Services;
 
@@ -10,16 +11,20 @@ namespace TeeTimeAPI
         public static void Main(string[] args)
         { 
             var builder = WebApplication.CreateBuilder(args);
-            //builder.Logging.ClearProviders();
-            //builder.Logging.AddConsole();
-
+            
             // Add services to the container.
             builder.Services.AddProblemDetails();
             builder.Services.AddControllers().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(setupAction =>
+            {
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+                setupAction.IncludeXmlComments(xmlCommentsFullPath);
+            });
            
 
             

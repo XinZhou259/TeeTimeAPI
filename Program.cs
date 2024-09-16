@@ -33,8 +33,17 @@ namespace TeeTimeAPI
                     builder.Configuration["ConnectionStrings:CourseInfoDBConnectionString"]));
             builder.Services.AddScoped<ICourseInfoRepository, CourseInfoRepository>();
            
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost",
+                    builder => builder
+                        .WithOrigins("http://localhost:12345", "https://localhost:12345") 
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()); // Optional, based on your need
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -47,6 +56,8 @@ namespace TeeTimeAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowLocalhost");
 
             app.UseHttpsRedirection();
 

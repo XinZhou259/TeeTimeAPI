@@ -13,7 +13,7 @@ namespace TeeTimeAPI.Services
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        
+
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
             return await _context.Courses.OrderBy(c => c.CourseName).ToListAsync();
@@ -28,7 +28,8 @@ namespace TeeTimeAPI.Services
             //explicitly cast the courses colletion to IQueryable to use the LINQ method and support differed execution
             //(execute the SQL query after all querys are build up in stage)
             var courseCollection = _context.Courses as IQueryable<Course>;
-            if (!string.IsNullOrEmpty(courseName)) {
+            if (!string.IsNullOrEmpty(courseName))
+            {
                 courseName = courseName.Trim();
                 courseCollection = courseCollection.Where(c => c.CourseName == courseName);
             }
@@ -43,7 +44,7 @@ namespace TeeTimeAPI.Services
             return await courseCollection.OrderBy(c => c.CourseName).ToListAsync();
 
 
-               
+
         }
 
         public async Task<Course?> GetCourseAsync(int courseId, bool includeTeeTime)
@@ -63,17 +64,22 @@ namespace TeeTimeAPI.Services
 
         }
 
-        public void AddCourse(Course course) 
-        { 
+        public async Task<bool> teeTimesExistAsync(int courseId)
+        {
+            return await _context.TeeTimes.AnyAsync(t => t.CourseId == courseId);
+        }
+
+        public void AddCourse(Course course)
+        {
             _context.Courses.Add(course);
         }
 
-        public void DeleteCourse(Course course) 
+        public void DeleteCourse(Course course)
         {
             _context.Courses.Remove(course);
         }
 
-        public async Task<bool> SaveChangeAsync() 
+        public async Task<bool> SaveChangeAsync()
         {
             return (await _context.SaveChangesAsync() > 0);
         }
@@ -85,7 +91,8 @@ namespace TeeTimeAPI.Services
                 .Where(t => t.CourseId == courseId && t.Id == teeTimeId).FirstOrDefaultAsync();
         }
 
-        public async Task<(IEnumerable<TeeTime>, PaginationMetadata)> GetTeeTimesAsync(int courseId, DateTime? date, int currentPage, int pageSize)
+        public async Task<IEnumerable<TeeTime>> GetTeeTimesAsync(
+            int courseId, DateTime? date, TimeSpan? startTime, TimeSpan? endTime)
         {
             var collection = _context.TeeTimes.Where(t => t.CourseId == courseId) as IQueryable<TeeTime>;
 
@@ -94,22 +101,47 @@ namespace TeeTimeAPI.Services
                 collection = collection.Where(t => t.Date.Date == date.Value.Date);
             }
 
+
+            var teeTimes = await collection.ToListAsync();
+
+            if (startTime.HasValue && endTime.HasValue)
+            {
+                teeTimes = teeTimes.Where(t => t.Time >= startTime && t.Time <= endTime).ToList();
+            }
+
+
+            return teeTimes;
+        }
+
+        public async Task<(IEnumerable<TeeTime>, PaginationMetadata)> GetTeeTimesPagedAsync(
+            int courseId, DateTime? date, int currentPage, int pageSize)
+        {
+            var collection = _context.TeeTimes.Where(t => t.CourseId == courseId) as IQueryable<TeeTime>;
+
+            if (date.HasValue)
+            {
+                collection = collection.Where(t => t.Date.Date == date.Value.Date);
+            }
+
+
+
             var totalItemCount = await collection.CountAsync();
 
-            var paginationMetadata = new PaginationMetadata (totalItemCount, pageSize, currentPage);
+            var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, currentPage);
 
             var collectionToReturn = await collection
                 .Skip(pageSize * (currentPage - 1))
                 .Take(pageSize)
                 .ToListAsync();
 
-            return (collectionToReturn, paginationMetadata); 
+            return (collectionToReturn, paginationMetadata);
         }
 
         public async Task AddTeeTimeToCourseAsync(int courseId, TeeTime teeTime)
         {
             var course = await GetCourseAsync(courseId, false);
-            if (course != null) {
+            if (course != null)
+            {
                 course.TeeTimes.Add(teeTime);
             }
         }
@@ -123,7 +155,7 @@ namespace TeeTimeAPI.Services
                 {
                     course.TeeTimes.Add(teeTime);
                 }
-                
+
             }
         }
     }

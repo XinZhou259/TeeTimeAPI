@@ -25,12 +25,10 @@ namespace TeeTimeAPI.Controllers
 
         [HttpGet("teetimes")]
         public async Task<ActionResult<IEnumerable<TeeTimeDto>>> GetTeeTimes(int courseId,
-            [FromQuery(Name = "date")] DateTime? date, [FromQuery] int currentPage = 1, [FromQuery] int pageSize = 3)
+            [FromQuery(Name = "date")] DateTime? date = null, 
+            [FromQuery(Name = "starttime")] TimeSpan? startTime = null, [FromQuery(Name = "endtime")] TimeSpan? endTime = null)
         {
-            if (pageSize > maxTeeTimePageSize)
-            {
-                pageSize = maxTeeTimePageSize;
-            }
+            
 
             if (!await _courseInfoRepository.CourseExistsAsync(courseId))
             {
@@ -38,14 +36,47 @@ namespace TeeTimeAPI.Controllers
                 return NotFound();
             }
 
-            var (teeTimesOfCourse, paginationMetadata) = await _courseInfoRepository.GetTeeTimesAsync(courseId, date, currentPage, pageSize);
+            if(!await _courseInfoRepository.teeTimesExistAsync(courseId))
+            {
+                _logger.LogInformation($"Course with id{courseId} has not any Tee Time available");
+                return NotFound();
+            }
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+            var teeTimesOfCourse = await _courseInfoRepository.GetTeeTimesAsync(courseId, date, startTime, endTime);
+
+            
 
             return Ok(_mapper.Map<IEnumerable<TeeTimeDto>>(teeTimesOfCourse));
 
 
         }
+
+        //[HttpGet("teetimes")]
+        //public async Task<ActionResult<IEnumerable<TeeTimeDto>>> GetTeeTimes(int courseId,
+        //    [FromQuery(Name = "date")] DateTime? date = null,            
+        //    [FromQuery] int currentPage = 1, [FromQuery] int pageSize = 3)
+        //{
+        //    if (pageSize > maxTeeTimePageSize)
+        //    {
+        //        pageSize = maxTeeTimePageSize;
+        //    }
+
+        //    if (!await _courseInfoRepository.CourseExistsAsync(courseId))
+        //    {
+        //        _logger.LogInformation($"Course with id {courseId} wasn't found");
+        //        return NotFound();
+        //    }
+
+        //    var (teeTimesOfCourse, paginationMetadata) = await _courseInfoRepository.GetTeeTimesPagedAsync(courseId, date, currentPage, pageSize);
+
+        //    Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+
+        //    return Ok(_mapper.Map<IEnumerable<TeeTimeDto>>(teeTimesOfCourse));
+
+
+        //}
+
+
 
         [HttpGet("teetimes/{teeTimeId}", Name = "GetTeeTime")]
         public async Task<ActionResult<TeeTimeDto>> GetTeeTime(int courseId, int teeTimeId)

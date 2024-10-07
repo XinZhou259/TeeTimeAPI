@@ -61,6 +61,18 @@
         <member name="M:TeeTimeAPI.Migrations.addDummyDataToDatabase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:TeeTimeAPI.Migrations.addDataToDatabase">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDataToDatabase.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDataToDatabase.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDataToDatabase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:TeeTimeAPI.Models.CourseDto">
             <summary>
             A course without tee times

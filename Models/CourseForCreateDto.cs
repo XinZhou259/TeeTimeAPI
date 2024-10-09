@@ -7,6 +7,7 @@ namespace TeeTimeAPI.Models
         [Required(ErrorMessage = "Please provide a course name.")]
         [MaxLength(50)]
         public String? CourseName { get; set; }
+
         [Required(ErrorMessage = "Please provide a course URL.")]
         [MaxLength(200)]
         public String? CourseUrl { get; set; }

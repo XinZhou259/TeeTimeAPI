@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeeTimeAPI.DbContexts;
 
@@ -10,9 +11,11 @@ using TeeTimeAPI.DbContexts;
 namespace TeeTimeAPI.Migrations
 {
     [DbContext(typeof(CourseInfoContext))]
-    partial class CourseInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20240826214634_addDummyDataToDatabase")]
+    partial class addDummyDataToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -55,24 +58,6 @@ namespace TeeTimeAPI.Migrations
                             Id = 3,
                             CourseName = "Northview Golf Club",
                             CourseURL = "https://www.northviewgolfclub.com/"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CourseName = "Red Woods Golf Club",
-                            CourseURL = "https://www.redwoodsgolfclub.com/"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CourseName = "Hazelmere Golf Club",
-                            CourseURL = "https://www.hazelmeregolfclub.com/"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CourseName = "Morgan Creek Golf Club",
-                            CourseURL = "https://www.morgancreekgolfclub.com/"
                         });
                 });
 
@@ -128,39 +113,12 @@ namespace TeeTimeAPI.Migrations
                             CourseId = 1,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
-                            Price = 180.0,
+                            Price = 150.0,
                             Time = new TimeSpan(0, 12, 30, 0, 0)
                         },
                         new
                         {
                             Id = 4,
-                            CourseId = 1,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 180.0,
-                            Time = new TimeSpan(0, 12, 40, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CourseId = 1,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 3,
-                            Price = 150.0,
-                            Time = new TimeSpan(0, 14, 10, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CourseId = 1,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 150.0,
-                            Time = new TimeSpan(0, 14, 30, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 7,
                             CourseId = 2,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -169,7 +127,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 5,
                             CourseId = 2,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -178,7 +136,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 6,
                             CourseId = 2,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 2,
@@ -187,34 +145,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 10,
-                            CourseId = 2,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 150.0,
-                            Time = new TimeSpan(0, 11, 40, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CourseId = 2,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 3,
-                            Price = 120.0,
-                            Time = new TimeSpan(0, 14, 20, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CourseId = 2,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 100.0,
-                            Time = new TimeSpan(0, 16, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 13,
+                            Id = 7,
                             CourseId = 3,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -223,52 +154,25 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 14,
+                            Id = 8,
                             CourseId = 3,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
-                            Price = 180.0,
+                            Price = 150.0,
                             Time = new TimeSpan(0, 13, 30, 0, 0)
                         },
                         new
                         {
-                            Id = 15,
+                            Id = 9,
                             CourseId = 3,
                             Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 2,
-                            Price = 130.0,
+                            Price = 100.0,
                             Time = new TimeSpan(0, 15, 40, 0, 0)
                         },
                         new
                         {
-                            Id = 16,
-                            CourseId = 3,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 200.0,
-                            Time = new TimeSpan(0, 10, 40, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CourseId = 3,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 180.0,
-                            Time = new TimeSpan(0, 14, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CourseId = 3,
-                            Date = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 130.0,
-                            Time = new TimeSpan(0, 16, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 19,
+                            Id = 10,
                             CourseId = 1,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -277,7 +181,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 20,
+                            Id = 11,
                             CourseId = 1,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 3,
@@ -286,43 +190,16 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 21,
+                            Id = 12,
                             CourseId = 1,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
-                            Price = 180.0,
+                            Price = 150.0,
                             Time = new TimeSpan(0, 12, 30, 0, 0)
                         },
                         new
                         {
-                            Id = 22,
-                            CourseId = 1,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 200.0,
-                            Time = new TimeSpan(0, 10, 40, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 23,
-                            CourseId = 1,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 200.0,
-                            Time = new TimeSpan(0, 11, 20, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 24,
-                            CourseId = 1,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 2,
-                            Price = 180.0,
-                            Time = new TimeSpan(0, 12, 40, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 25,
+                            Id = 13,
                             CourseId = 2,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -331,7 +208,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 26,
+                            Id = 14,
                             CourseId = 2,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -340,7 +217,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 27,
+                            Id = 15,
                             CourseId = 2,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 2,
@@ -349,34 +226,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 28,
-                            CourseId = 2,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 150.0,
-                            Time = new TimeSpan(0, 12, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 29,
-                            CourseId = 2,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 120.0,
-                            Time = new TimeSpan(0, 14, 20, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 30,
-                            CourseId = 2,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 2,
-                            Price = 100.0,
-                            Time = new TimeSpan(0, 16, 10, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 31,
+                            Id = 16,
                             CourseId = 3,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -385,7 +235,7 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 32,
+                            Id = 17,
                             CourseId = 3,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 4,
@@ -394,39 +244,12 @@ namespace TeeTimeAPI.Migrations
                         },
                         new
                         {
-                            Id = 33,
+                            Id = 18,
                             CourseId = 3,
                             Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NumberOfPlayer = 2,
-                            Price = 130.0,
+                            Price = 100.0,
                             Time = new TimeSpan(0, 15, 40, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 34,
-                            CourseId = 3,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 3,
-                            Price = 200.0,
-                            Time = new TimeSpan(0, 10, 30, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 35,
-                            CourseId = 3,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 4,
-                            Price = 150.0,
-                            Time = new TimeSpan(0, 13, 10, 0, 0)
-                        },
-                        new
-                        {
-                            Id = 36,
-                            CourseId = 3,
-                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfPlayer = 1,
-                            Price = 130.0,
-                            Time = new TimeSpan(0, 16, 10, 0, 0)
                         });
                 });
 

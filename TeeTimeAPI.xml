@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TeeTimeAPI</name>
+    </assembly>
+    <members>
+        <member name="M:TeeTimeAPI.Controllers.CoursesController.GetCourse(System.Int32,System.Boolean)">
+            <summary>
+            Get a course by id
+            </summary>
+            <param name="courseId"></param>
+            <param name="includeTeeTime">Whether or not to include the tee times of current course</param>
+            <returns>A course with or without tee times</returns>
+            <response code="200">Returns the requested course</response>
+        </member>
+        <member name="T:TeeTimeAPI.Migrations.CourseInfoInitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.CourseInfoInitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.CourseInfoInitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.CourseInfoInitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TeeTimeAPI.Migrations.CourseInfoDataSeed">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.CourseInfoDataSeed.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.CourseInfoDataSeed.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.CourseInfoDataSeed.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TeeTimeAPI.Migrations.changeDateAndTimeTypeForTeeTime">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.changeDateAndTimeTypeForTeeTime.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.changeDateAndTimeTypeForTeeTime.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.changeDateAndTimeTypeForTeeTime.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TeeTimeAPI.Migrations.addDummyDataToDatabase">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDummyDataToDatabase.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDummyDataToDatabase.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDummyDataToDatabase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TeeTimeAPI.Migrations.addDataToDatabase">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDataToDatabase.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDataToDatabase.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TeeTimeAPI.Migrations.addDataToDatabase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TeeTimeAPI.Models.CourseDto">
+            <summary>
+            A course without tee times
+            </summary>
+        </member>
+        <member name="T:TeeTimeAPI.Models.CourseWithTeeTimeDto">
+            <summary>
+            A course with tee times
+            </summary>
+        </member>
+    </members>
+</doc>
